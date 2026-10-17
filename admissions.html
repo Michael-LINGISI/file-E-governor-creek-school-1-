@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admissions — The Governor Creek School</title>
+<link rel="icon" href="images/logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a href="index.html" class="brand">
+      <img src="images/logo.jpg" alt="The Governor Creek School logo" class="brand-logo">
+      <span data-school-name>The Governor Creek School</span>
+    </a>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="programs.html">Programs</a></li>
+        <li><a href="admissions.html" class="active">Admissions</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="admin/index.html">Staff Portal</a></li>
+      </ul>
+    </nav>
+    <a href="#form" class="nav-cta">Enroll Now</a>
+    <button class="nav-toggle" aria-label="Open menu">☰</button>
+  </div>
+</header>
+
+<div class="page-hero">
+  <div class="container">
+    <span class="badge">Next intake — limited places</span>
+    <h1>Admissions</h1>
+    <p style="max-width:60ch;">Four simple steps to join The Governor Creek School, from your first enquiry to your child's first day of class.</p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div class="branch-grid" data-admission-steps></div>
+  </div>
+</section>
+
+<section id="fees" style="background:var(--wash-deep);">
+  <div class="container">
+    <div class="section-head">
+      <hr class="root-rule">
+      <span class="eyebrow">Fee structure</span>
+      <h2>2027 tuition &amp; fees</h2>
+      <p>All amounts are in Kenya Shillings (KSh) and charged per term, unless stated otherwise.</p>
+    </div>
+
+    <div class="table-scroll fee-scroll">
+      <table class="fee-table">
+        <thead>
+          <tr><th>Band</th><th>Tuition</th><th>Lunch</th><th>Snacks</th><th>Day total</th><th>Day + boarding</th></tr>
+        </thead>
+        <tbody data-fees></tbody>
+      </table>
+    </div>
+    <p class="fee-note">Day total = tuition + lunch + snacks. Day + boarding adds the boarding fee of <strong data-boarding-fee>KSh 30,000</strong> per term.</p>
+
+    <div class="fee-info-grid">
+      <div class="info-card">
+        <h3>Common charges</h3>
+        <div class="dl-row"><span>Stationery</span><strong><span data-stationery-fee>KSh 2,000</span> per year</strong></div>
+        <p class="dl-note">Payable in Term 1 only.</p>
+        <div class="dl-row"><span>Boarding</span><strong><span data-boarding-fee>KSh 30,000</span> per term</strong></div>
+        <p class="dl-note">Applies to all bands.</p>
+        <div class="dl-row"><span>Uniform</span><strong>Purchased from the school</strong></div>
+      </div>
+
+      <div class="info-card">
+        <h3>School transport <span class="pill">Optional</span></h3>
+        <p class="dl-note">Per term, by pick-up zone.</p>
+        <div data-transport></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="form">
+  <div class="container" style="max-width:640px;">
+    <div class="section-head">
+      <hr class="root-rule">
+      <span class="eyebrow">Application form</span>
+      <h2>Admission enquiry</h2>
+      <p style="font-size:0.85rem; color:#3f5052;">Fields marked <span class="required-mark">*</span> are required.</p>
+    </div>
+    <form id="admission-form" onsubmit="return handleContactSubmit(event)" novalidate>
+      <p class="form-error-banner"></p>
+
+      <div class="form-field">
+        <label for="child-name">Child's full name <span class="required-mark">*</span></label>
+        <input type="text" id="child-name" name="child-name" required minlength="2" maxlength="80" placeholder="e.g. Amani Njoroge">
+        <p class="field-hint">2–80 characters.</p>
+      </div>
+
+      <div class="form-field">
+        <label for="child-dob">Date of birth <span class="required-mark">*</span></label>
+        <input type="date" id="child-dob" name="child-dob" required max="2023-01-01">
+      </div>
+
+      <div class="form-field">
+        <label for="level">Desired level <span class="required-mark">*</span></label>
+        <select id="level" name="level" required>
+          <option value="">Select…</option>
+          <option>Play Group</option>
+          <option>Pre-Primary (PP1 & PP2)</option>
+          <option>Primary (Grade 1–6)</option>
+          <option>Junior Secondary (Grade 7–9)</option>
+          <option>Senior School (Grade 10–12)</option>
+        </select>
+      </div>
+
+      <div class="form-field">
+        <label for="parent-name">Parent / guardian name <span class="required-mark">*</span></label>
+        <input type="text" id="parent-name" name="parent-name" required minlength="2" maxlength="80">
+      </div>
+
+      <div class="form-field">
+        <label for="parent-phone">Phone number <span class="required-mark">*</span></label>
+        <input type="tel" id="parent-phone" name="parent-phone" required pattern="^\+?[0-9\s\-]{7,15}$" maxlength="20" placeholder="+254 7XX XXX XXX" data-pattern-hint="Enter a valid phone number (7–15 digits, optional +, spaces or dashes).">
+      </div>
+
+      <div class="form-field">
+        <label for="parent-email">Email address <span class="required-mark">*</span></label>
+        <input type="email" id="parent-email" name="parent-email" required maxlength="120" placeholder="you@example.com">
+      </div>
+
+      <div class="form-field">
+        <label for="notes">Message (optional)</label>
+        <textarea id="notes" name="notes" rows="4" maxlength="500" placeholder="Anything you'd like us to know"></textarea>
+        <p class="field-hint">Up to 500 characters.</p>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Send Application</button>
+      <p class="form-status" style="margin-top:12px; font-size:0.9rem;"></p>
+    </form>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h4 data-school-name>The Governor Creek School</h4>
+        <p style="max-width:32ch;">Primary, Junior &amp; Senior School in Mombasa — Inspire. Educate. Innovate.</p>
+      </div>
+      <div>
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="programs.html">Programs</a></li>
+          <li><a href="admissions.html">Admissions</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="admin/index.html">Staff Portal</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li data-school-address>Creek Road, Mombasa, Kenya</li>
+          <li data-school-phone>+254 700 000 000</li>
+          <li data-school-email>info@governorcreekschool.ac.ke</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Follow Us</h4>
+        <ul>
+          <li><a href="#" data-school-facebook target="_blank" rel="noopener">Facebook</a></li>
+          <li><a href="#" data-school-tiktok target="_blank" rel="noopener">TikTok</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span data-school-year>2026</span> <span data-school-name>The Governor Creek School</span>. All rights reserved.</span>
+      <span>Website by Pro Training Centre</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/supabase-client.js"></script>
+<script src="js/data-service.js"></script>
+<script src="js/validation.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

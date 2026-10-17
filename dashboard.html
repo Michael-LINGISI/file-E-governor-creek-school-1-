@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — The Governor Creek School</title>
+<link rel="icon" href="../images/logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/admin.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="admin-body" data-page="dashboard">
+
+<div class="admin-shell">
+  <aside class="sidebar">
+    <div class="brand-row">
+      <img src="../images/logo.jpg" alt="The Governor Creek School logo" class="brand-logo">
+      <span data-current-school-name>Governor Creek</span>
+    </div>
+    <nav>
+      <a href="#kpis">Overview</a>
+      <a href="#settings">Site Info</a>
+      <a href="#programs">Programs</a>
+      <a href="#facilities">Facilities</a>
+      <a href="#admissions">Admissions &amp; Fees</a>
+      <a href="#news">News</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#students">Students</a>
+      <a href="#grades">Grades</a>
+      <a href="#payments">Payments</a>
+      <a href="#schedule">Schedule</a>
+      <a href="../index.html">← Back to public site</a>
+    </nav>
+    <div class="logout-row">
+      <button class="logout">Sign Out</button>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+    <div class="admin-topbar" id="kpis">
+      <div>
+        <h1>Dashboard</h1>
+        <p class="subtitle">Manage every part of the public site and school records from here.</p>
+      </div>
+    </div>
+
+    <div class="kpi-row" data-kpis></div>
+
+    <!-- ===================== SITE INFO ===================== -->
+    <section id="settings" class="panel">
+      <div class="panel-head">
+        <h2>Site Info</h2>
+        <span style="font-size:0.8rem; color:#5a6a6c;">Changes appear on the public site immediately.</span>
+      </div>
+      <form id="settings-form" onsubmit="return submitSettingsForm(event)" novalidate>
+        <p class="form-error-banner"></p>
+        <div class="settings-grid">
+          <div class="form-field">
+            <label>School name <span class="required-mark">*</span></label>
+            <input type="text" name="school_name" required minlength="2" maxlength="80">
+          </div>
+          <div class="form-field">
+            <label>Tagline / slogan <span class="required-mark">*</span></label>
+            <input type="text" name="tagline" required minlength="2" maxlength="100">
+          </div>
+          <div class="form-field" style="grid-column:1 / -1;">
+            <label>Brief presentation <span class="required-mark">*</span></label>
+            <textarea name="about" rows="4" required minlength="20" maxlength="600"></textarea>
+            <p class="field-hint">20–600 characters.</p>
+          </div>
+          <div class="form-field">
+            <label>Founded year</label>
+            <input type="text" name="founded_year" maxlength="4" pattern="^[0-9]{4}$" data-pattern-hint="Enter a 4-digit year.">
+          </div>
+          <div class="form-field">
+            <label>Address <span class="required-mark">*</span></label>
+            <input type="text" name="address" required maxlength="120">
+          </div>
+          <div class="form-field">
+            <label>Phone <span class="required-mark">*</span></label>
+            <input type="tel" name="phone" required maxlength="20" pattern="^\+?[0-9\s\-]{7,15}$" data-pattern-hint="Enter a valid phone number.">
+          </div>
+          <div class="form-field">
+            <label>Email <span class="required-mark">*</span></label>
+            <input type="email" name="email" required maxlength="120">
+          </div>
+          <div class="form-field">
+            <label>WhatsApp number</label>
+            <input type="tel" name="whatsapp" maxlength="20" pattern="^\+?[0-9\s\-]{7,15}$" data-pattern-hint="Enter a valid phone number.">
+          </div>
+          <div class="form-field">
+            <label>Office hours <span class="required-mark">*</span></label>
+            <input type="text" name="hours" required maxlength="60">
+          </div>
+          <div class="form-field">
+            <label>Facebook URL</label>
+            <input type="url" name="facebook_url" maxlength="200" placeholder="https://facebook.com/...">
+          </div>
+          <div class="form-field">
+            <label>TikTok URL</label>
+            <input type="url" name="tiktok_url" maxlength="200" placeholder="https://tiktok.com/@...">
+          </div>
+          <div class="form-field">
+            <label>Instagram URL</label>
+            <input type="url" name="instagram_url" maxlength="200" placeholder="https://instagram.com/...">
+          </div>
+          <div class="form-field">
+            <label>Students (home page stat)</label>
+            <input type="text" name="stat_students" maxlength="10">
+          </div>
+          <div class="form-field">
+            <label>Teachers (home page stat)</label>
+            <input type="text" name="stat_teachers" maxlength="10">
+          </div>
+          <div class="form-field">
+            <label>Founded (home page stat)</label>
+            <input type="text" name="stat_years" maxlength="10">
+          </div>
+          <div class="form-field">
+            <label>Pass rate (home page stat)</label>
+            <input type="text" name="stat_pass_rate" maxlength="10">
+          </div>
+          <div class="form-field">
+            <label>Boarding fee per term (KSh) <span class="required-mark">*</span></label>
+            <input type="number" name="boarding_fee" min="0" max="1000000" required>
+          </div>
+          <div class="form-field">
+            <label>Stationery fee per year (KSh) <span class="required-mark">*</span></label>
+            <input type="number" name="stationery_fee" min="0" max="1000000" required>
+          </div>
+          <div class="form-field" style="grid-column:1 / -1;">
+            <label>Map location <span class="required-mark">*</span></label>
+            <input type="text" name="map_query" required maxlength="200" placeholder="Street address, plus code or latitude,longitude">
+            <p class="field-hint">Used for the Google Map on the Contact page. For a precise pin, paste the exact address or coordinates (e.g. -4.0435,39.6682).</p>
+          </div>
+          <div class="form-field" style="grid-column:1 / -1;">
+            <label>Logo note</label>
+            <input type="text" name="logo_note" maxlength="200">
+            <p class="field-hint">Internal note only — the logo mark itself is an SVG in the page code; ask your developer to swap it for official artwork.</p>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-sm">Save Site Info</button>
+        <p class="form-status" style="margin-top:10px; font-size:0.88rem;"></p>
+      </form>
+    </section>
+
+    <!-- ===================== PROGRAMS ===================== -->
+    <section id="programs" class="panel">
+      <div class="panel-head">
+        <h2>Programs</h2>
+        <button class="btn btn-primary btn-sm" onclick="openModal('modal-program')">+ Add Program</button>
+      </div>
+      <div data-programs-table></div>
+    </section>
+
+    <!-- ===================== FACILITIES ===================== -->
+    <section id="facilities" class="panel">
+      <div class="panel-head">
+        <h2>Facilities</h2>
+        <button class="btn btn-primary btn-sm" onclick="openModal('modal-facility')">+ Add Facility</button>
+      </div>
+      <div data-facilities-table></div>
+    </section>
+
+    <!-- ===================== ADMISSIONS & FEES ===================== -->
+    <section id="admissions" class="panel">
+      <div class="panel-head">
+        <h2>Admission Steps</h2>
+        <button class="btn btn-primary btn-sm" onclick="openModal('modal-step')">+ Add Step</button>
+      </div>
+      <div data-steps-table></div>
+      <div class="panel-head" style="margin-top:26px;">
+        <h2>Fee Bands (2027)</h2>
+        <button class="btn btn-primary btn-sm" onclick="openFeeModal()">+ Add Band</button>
+      </div>
+      <p style="font-size:0.85rem; color:#5a6a6c; margin-top:-8px;">The day total and the boarding total are calculated automatically. Set the boarding and stationery amounts in Site Info.</p>
+      <div data-fees-table></div>
+      <div class="panel-head" style="margin-top:26px;">
+        <h2>Transport Zones</h2>
+        <button class="btn btn-primary btn-sm" onclick="openTransportModal()">+ Add Zone</button>
+      </div>
+      <div data-transport-table></div>
+    </section>
+
+    <!-- ===================== NEWS ===================== -->
+    <section id="news" class="panel">
+      <div class="panel-head">
+        <h2>News</h2>
+        <button class="btn btn-primary btn-sm" onclick="openModal('modal-news')">+ Add News</button>
+      </div>
+      <div data-news-table></div>
+    </section>
+
+    <!-- ===================== GALLERY ===================== -->
+    <section id="gallery" class="panel">
+      <div class="panel-head">
+        <h2>Gallery</h2>
+        <button class="btn btn-primary btn-sm" onclick="openModal('modal-gallery')">+ Add Photo</button>
+      </div>
+      <p style="font-size:0.85rem; color:#5a6a6c; margin-top:-8px;">Paste an image URL (e.g. from your phone's cloud photos, or an uploaded link). Direct file upload requires Supabase Storage — ask your developer to enable it if needed.</p>
+      <div data-gallery-admin></div>
+    </section>
+
+    <!-- ===================== STUDENTS ===================== -->
+    <section id="students" class="panel">
+      <div class="panel-head">
+        <h2>Students</h2>
+        <button class="btn btn-primary btn-sm" onclick="openModal('modal-student')">+ Add Student</button>
+      </div>
+      <div data-students-table></div>
+    </section>
+
+    <!-- ===================== GRADES ===================== -->
+    <section id="grades" class="panel">
+      <div class="panel-head">
+        <h2>Grades &amp; Report Cards</h2>
+        <button class="btn btn-primary btn-sm" onclick="openModal('modal-grade')">+ Add Grade</button>
+      </div>
+      <div data-grades-table></div>
+    </section>
+
+    <!-- ===================== PAYMENTS ===================== -->
+    <section id="payments" class="panel">
+      <div class="panel-head">
+        <h2>Payments</h2>
+        <button class="btn btn-primary btn-sm" onclick="openModal('modal-payment')">+ Record Payment</button>
+      </div>
+      <div data-payments-table></div>
+    </section>
+
+    <!-- ===================== SCHEDULE ===================== -->
+    <section id="schedule" class="panel">
+      <div class="panel-head">
+        <h2>Schedule</h2>
+        <button class="btn btn-primary btn-sm" onclick="openModal('modal-schedule')">+ Add Time Slot</button>
+      </div>
+      <div data-schedule-table></div>
+    </section>
+  </main>
+</div>
+
+<!-- ============ MODALS ============ -->
+
+<div class="modal-overlay" id="modal-facility">
+  <div class="modal">
+    <h3>Add Facility</h3>
+    <form onsubmit="return submitFacilityForm(event)" novalidate>
+      <p class="form-error-banner"></p>
+      <div class="form-field"><label>Name <span class="required-mark">*</span></label><input type="text" name="name" required maxlength="60"></div>
+      <div class="form-field"><label>Description <span class="required-mark">*</span></label><textarea name="description" rows="3" required minlength="10" maxlength="300"></textarea></div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-outline btn-sm" onclick="closeModal('modal-facility')">Cancel</button>
+        <button type="submit" class="btn btn-primary btn-sm">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-program">
+  <div class="modal">
+    <h3>Add Program</h3>
+    <form onsubmit="return submitProgramForm(event)" novalidate>
+      <p class="form-error-banner"></p>
+      <div class="form-field"><label>Name <span class="required-mark">*</span></label><input type="text" name="name" required maxlength="60"></div>
+      <div class="form-field"><label>Age range <span class="required-mark">*</span></label><input type="text" name="age_range" required maxlength="40" placeholder="e.g. 6 – 13 years"></div>
+      <div class="form-field"><label>Description <span class="required-mark">*</span></label><textarea name="description" rows="3" required minlength="10" maxlength="300"></textarea></div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-outline btn-sm" onclick="closeModal('modal-program')">Cancel</button>
+        <button type="submit" class="btn btn-primary btn-sm">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-step">
+  <div class="modal">
+    <h3>Add Admission Step</h3>
+    <form onsubmit="return submitStepForm(event)" novalidate>
+      <p class="form-error-banner"></p>
+      <div class="form-field"><label>Step number <span class="required-mark">*</span></label><input type="number" name="step_order" min="1" max="20" required></div>
+      <div class="form-field"><label>Title <span class="required-mark">*</span></label><input type="text" name="title" required maxlength="60"></div>
+      <div class="form-field"><label>Description <span class="required-mark">*</span></label><textarea name="description" rows="3" required minlength="10" maxlength="300"></textarea></div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-outline btn-sm" onclick="closeModal('modal-step')">Cancel</button>
+        <button type="submit" class="btn btn-primary btn-sm">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-fee">
+  <div class="modal">
+    <h3>Add Fee Band</h3>
+    <form onsubmit="return submitFeeForm(event)" novalidate>
+      <input type="hidden" name="row_id">
+      <p class="form-error-banner"></p>
+      <div class="form-field"><label>Band number <span class="required-mark">*</span></label><input type="number" name="sort_order" min="1" max="20" required></div>
+      <div class="form-field"><label>Band name <span class="required-mark">*</span></label><input type="text" name="band_name" required maxlength="40" placeholder="e.g. Lower Primary"></div>
+      <div class="form-field"><label>Levels covered <span class="required-mark">*</span></label><input type="text" name="levels" required maxlength="80" placeholder="e.g. Grade 1 – 3"></div>
+      <div class="form-field"><label>Tuition per term (KSh) <span class="required-mark">*</span></label><input type="number" name="tuition" min="0" max="500000" required></div>
+      <div class="form-field"><label>Lunch per term (KSh) <span class="required-mark">*</span></label><input type="number" name="lunch" min="0" max="500000" required></div>
+      <div class="form-field"><label>Snacks per term (KSh) <span class="required-mark">*</span></label><input type="number" name="snacks" min="0" max="500000" required></div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-outline btn-sm" onclick="closeModal('modal-fee')">Cancel</button>
+        <button type="submit" class="btn btn-primary btn-sm">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-transport">
+  <div class="modal">
+    <h3>Add Transport Zone</h3>
+    <form onsubmit="return submitTransportForm(event)" novalidate>
+      <input type="hidden" name="row_id">
+      <p class="form-error-banner"></p>
+      <div class="form-field"><label>Order <span class="required-mark">*</span></label><input type="number" name="sort_order" min="1" max="20" required></div>
+      <div class="form-field"><label>Zone name <span class="required-mark">*</span></label><input type="text" name="zone" required maxlength="20" placeholder="e.g. Zone A"></div>
+      <div class="form-field"><label>Areas covered <span class="required-mark">*</span></label><input type="text" name="areas" required maxlength="120" placeholder="e.g. Town, Nyali, Mtwapa"></div>
+      <div class="form-field"><label>Amount per term (KSh) <span class="required-mark">*</span></label><input type="number" name="amount" min="0" max="100000" required></div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-outline btn-sm" onclick="closeModal('modal-transport')">Cancel</button>
+        <button type="submit" class="btn btn-primary btn-sm">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-news">
+  <div class="modal">
+    <h3>Add News</h3>
+    <form onsubmit="return submitNewsForm(event)" novalidate>
+      <p class="form-error-banner"></p>
+      <div class="form-field"><label>Title <span class="required-mark">*</span></label><input type="text" name="title" required maxlength="90"></div>
+      <div class="form-field"><label>Date label <span class="required-mark">*</span></label><input type="text" name="date_label" required maxlength="30" placeholder="e.g. 28 Jul 2026"></div>
+      <div class="form-field"><label>Excerpt <span class="required-mark">*</span></label><textarea name="excerpt" rows="3" required minlength="10" maxlength="300"></textarea></div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-outline btn-sm" onclick="closeModal('modal-news')">Cancel</button>
+        <button type="submit" class="btn btn-primary btn-sm">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-gallery">
+  <div class="modal">
+    <h3>Add Photo</h3>
+    <form onsubmit="return submitGalleryForm(event)" novalidate>
+      <p class="form-error-banner"></p>
+      <div class="form-field"><label>Image URL <span class="required-mark">*</span></label><input type="url" name="image_url" required maxlength="500" placeholder="https://..."></div>
+      <div class="form-field"><label>Caption <span class="required-mark">*</span></label><input type="text" name="caption" required maxlength="100"></div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-outline btn-sm" onclick="closeModal('modal-gallery')">Cancel</button>
+        <button type="submit" class="btn btn-primary btn-sm">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-student">
+  <div class="modal">
+    <h3>Add Student</h3>
+    <form onsubmit="return submitStudentForm(event)" novalidate>
+      <p class="form-error-banner"></p>
+      <div class="form-field"><label>Full name <span class="required-mark">*</span></label><input type="text" name="full_name" required minlength="2" maxlength="80"></div>
+      <div class="form-field"><label>Date of birth <span class="required-mark">*</span></label><input type="date" name="date_of_birth" required></div>
+      <div class="form-field"><label>Class <span class="required-mark">*</span></label><select name="class_id" data-class-select required></select></div>
+      <div class="form-field"><label>Parent name <span class="required-mark">*</span></label><input type="text" name="parent_name" required maxlength="80"></div>
+      <div class="form-field"><label>Parent phone <span class="required-mark">*</span></label><input type="tel" name="parent_phone" required maxlength="20" pattern="^\+?[0-9\s\-]{7,15}$" data-pattern-hint="Enter a valid phone number."></div>
+      <div class="form-field"><label>Parent email <span class="required-mark">*</span></label><input type="email" name="parent_email" required maxlength="120"></div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-outline btn-sm" onclick="closeModal('modal-student')">Cancel</button>
+        <button type="submit" class="btn btn-primary btn-sm">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-grade">
+  <div class="modal">
+    <h3>Add Grade</h3>
+    <form onsubmit="return submitGradeForm(event)" novalidate>
+      <p class="form-error-banner"></p>
+      <div class="form-field"><label>Student <span class="required-mark">*</span></label><select name="student_id" data-student-select required></select></div>
+      <div class="form-field"><label>Subject <span class="required-mark">*</span></label><input type="text" name="subject" required maxlength="40"></div>
+      <div class="form-field"><label>Term <span class="required-mark">*</span></label><input type="text" name="term" required maxlength="30" placeholder="Term 2 2026"></div>
+      <div class="form-field"><label>Score (out of 100) <span class="required-mark">*</span></label><input type="number" name="score" min="0" max="100" required></div>
+      <div class="form-field"><label>Comment</label><textarea name="comment" rows="3" maxlength="200"></textarea></div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-outline btn-sm" onclick="closeModal('modal-grade')">Cancel</button>
+        <button type="submit" class="btn btn-primary btn-sm">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-payment">
+  <div class="modal">
+    <h3>Record Payment</h3>
+    <form onsubmit="return submitPaymentForm(event)" novalidate>
+      <p class="form-error-banner"></p>
+      <div class="form-field"><label>Student <span class="required-mark">*</span></label><select name="student_id" data-student-select required></select></div>
+      <div class="form-field"><label>Term <span class="required-mark">*</span></label><input type="text" name="term" required maxlength="30" placeholder="Term 2 2026"></div>
+      <div class="form-field"><label>Amount due (KES) <span class="required-mark">*</span></label><input type="number" name="amount_due" min="0" required></div>
+      <div class="form-field"><label>Amount paid (KES) <span class="required-mark">*</span></label><input type="number" name="amount_paid" min="0" value="0" required></div>
+      <div class="form-field"><label>Due date</label><input type="date" name="due_date"></div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-outline btn-sm" onclick="closeModal('modal-payment')">Cancel</button>
+        <button type="submit" class="btn btn-primary btn-sm">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-schedule">
+  <div class="modal">
+    <h3>Add Time Slot</h3>
+    <form onsubmit="return submitScheduleForm(event)" novalidate>
+      <p class="form-error-banner"></p>
+      <div class="form-field"><label>Class <span class="required-mark">*</span></label><select name="class_id" data-class-select required></select></div>
+      <div class="form-field"><label>Day <span class="required-mark">*</span></label>
+        <select name="day_of_week" required>
+          <option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option><option>Friday</option>
+        </select>
+      </div>
+      <div class="form-field"><label>Start time <span class="required-mark">*</span></label><input type="time" name="start_time" required></div>
+      <div class="form-field"><label>End time <span class="required-mark">*</span></label><input type="time" name="end_time" required></div>
+      <div class="form-field"><label>Subject <span class="required-mark">*</span></label><input type="text" name="subject" required maxlength="40"></div>
+      <div class="form-field"><label>Teacher</label><input type="text" name="teacher_name" maxlength="60"></div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-outline btn-sm" onclick="closeModal('modal-schedule')">Cancel</button>
+        <button type="submit" class="btn btn-primary btn-sm">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="../js/supabase-client.js"></script>
+<script src="../js/data-service.js"></script>
+<script src="../js/validation.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

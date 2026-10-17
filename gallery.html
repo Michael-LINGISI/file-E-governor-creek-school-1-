@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery — The Governor Creek School</title>
+<link rel="icon" href="images/logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a href="index.html" class="brand">
+      <img src="images/logo.jpg" alt="The Governor Creek School logo" class="brand-logo">
+      <span data-school-name>The Governor Creek School</span>
+    </a>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="programs.html">Programs</a></li>
+        <li><a href="admissions.html">Admissions</a></li>
+        <li><a href="gallery.html" class="active">Gallery</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="admin/index.html">Staff Portal</a></li>
+      </ul>
+    </nav>
+    <a href="admissions.html" class="nav-cta">Enroll Now</a>
+    <button class="nav-toggle" aria-label="Open menu">☰</button>
+  </div>
+</header>
+
+<div class="page-hero">
+  <div class="container">
+    <span class="badge">Campus life</span>
+    <h1>Gallery</h1>
+    <p style="max-width:60ch;">A look at classrooms, events and everyday moments at The Governor Creek School. Photos are managed by our staff and updated regularly.</p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div class="gallery-grid" data-gallery></div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h4 data-school-name>The Governor Creek School</h4>
+        <p style="max-width:32ch;">Primary, Junior &amp; Senior School in Mombasa — Inspire. Educate. Innovate.</p>
+      </div>
+      <div>
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="programs.html">Programs</a></li>
+          <li><a href="admissions.html">Admissions</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="admin/index.html">Staff Portal</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li data-school-address>Creek Road, Mombasa, Kenya</li>
+          <li data-school-phone>+254 700 000 000</li>
+          <li data-school-email>info@governorcreekschool.ac.ke</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Follow Us</h4>
+        <ul>
+          <li><a href="#" data-school-facebook target="_blank" rel="noopener">Facebook</a></li>
+          <li><a href="#" data-school-tiktok target="_blank" rel="noopener">TikTok</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span data-school-year>2026</span> <span data-school-name>The Governor Creek School</span>. All rights reserved.</span>
+      <span>Website by Pro Training Centre</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/supabase-client.js"></script>
+<script src="js/data-service.js"></script>
+<script src="js/validation.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
